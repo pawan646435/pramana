@@ -7,7 +7,7 @@ measurable number instead of a vibe.
 """
 
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 
 
 class ClaimStatus(str, Enum):
@@ -34,6 +34,7 @@ class GenerationResult(BaseModel):
     narrative: str
     claims: list[VerifiedClaim]
 
+    @computed_field
     @property
     def hallucination_rate(self) -> float:
         if not self.claims:
