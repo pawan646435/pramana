@@ -8,7 +8,7 @@ belong in this file.
 """
 
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field # pyright: ignore[reportMissingImports]
 
 
 class BirthDetails(BaseModel):

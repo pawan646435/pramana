@@ -7,7 +7,7 @@ not present in it. Verification later checks whether it actually
 complied - this prompt is the first line of defense, not the only one.
 """
 
-from app.models.chart import ComputedChart
+from app.models.chart import BirthDetails, ComputedChart
 
 SYSTEM_PROMPT = """You are an astrological narrator. You will be given a JSON object
 containing a fully computed Vedic birth chart - planetary positions, current dasha
@@ -35,3 +35,27 @@ def build_narration_prompt(chart: ComputedChart) -> str:
 {chart_json}
 
 Write a short natural-language narration of this chart, following the system rules exactly."""
+
+
+UNGROUNDED_SYSTEM_PROMPT = """You are a Vedic astrologer. A person has given you their birth
+date, time, and place. Write a short natural-language astrological reading for them,
+covering their key planetary placements, their current dasha period, and today's panchang.
+Keep it to 4-6 sentences.
+"""
+
+
+def build_ungrounded_prompt(birth: BirthDetails) -> str:
+    """
+    Deliberately gives the model NO computed chart data - only raw birth
+    details, the way a naive astrology app (or a person asking ChatGPT
+    directly) would. This is the eval baseline: whatever specific
+    placements the model states here, it invented from parametric
+    "knowledge" rather than real computation, since it has no way to
+    actually calculate them from birth details alone.
+    """
+    return f"""Birth date: {birth.date}
+Birth time: {birth.time}
+Birth location: latitude {birth.latitude}, longitude {birth.longitude}
+
+Write the astrological reading now, including specific planetary placements,
+the current dasha period, and today's panchang."""

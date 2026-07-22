@@ -24,6 +24,15 @@ astrological chart as JSON, and one claim made about that chart. Decide:
 - "unverifiable" - the claim is interpretive/subjective phrasing with nothing in the
   JSON that could confirm or deny it (e.g. general encouragement, vague sentiment)
 
+The "confidence" field means: how certain are you in this classification decision
+itself - NOT how likely the claim is to be true, and NOT how "grounded" the claim is.
+A claim you are CERTAIN is ungrounded (e.g. it flatly contradicts a specific field in
+the JSON) should get a HIGH confidence, like 0.9-0.95 - you are very sure of your
+"ungrounded" verdict, even though the verdict itself is negative. Only use a low
+confidence (below 0.5) when you are genuinely unsure which of the three categories
+applies - for example, ambiguous phrasing that could be read as either interpretive
+commentary or a specific factual claim.
+
 Respond with ONLY a JSON object, no other text:
 {"status": "grounded" | "ungrounded" | "unverifiable", "field_path": "<dot path or null>", "confidence": <0.0-1.0>}
 """

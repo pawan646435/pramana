@@ -1,0 +1,745 @@
+{
+  "provider": "groq",
+  "cases": [
+    {
+      "birth_details": {
+        "date": "1998-04-12",
+        "time": "14:35",
+        "latitude": 25.59,
+        "longitude": 85.13,
+        "timezone_offset_hours": 5.5
+      },
+      "ungrounded_result": {
+        "chart_id": "dce87405-6be4-4d41-a847-49512131d463",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "Based on your birth chart, you have a strong Mercury placement in Aries, indicating a sharp and adventurous mind, while your Venus in Pisces suggests a creative and compassionate approach to relationships. Your current dasha period is Rahu mahadasha, which may bring unexpected opportunities and transformations in your life. As of today, the panchang indicates that the moon is in the nakshatra of Purva Phalguni, a favorable time for creative pursuits and social interactions. With the sun in a fire sign, your energy levels are likely to be high, and you may feel an increased desire to take action on your goals. Overall, this is a dynamic and potentially exciting time for you, with opportunities for growth and self-expression. Your Mars in Scorpio adds a layer of intensity and passion to your endeavors, driving you to pursue your desires with determination and focus.",
+        "claims": [
+          {
+            "claim": {
+              "text": "Based on your birth chart, you have a strong Mercury placement in Aries.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "positions[2].sign",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "indicating a sharp and adventurous mind, while your Venus in Pisces suggests a creative and compassionate approach to relationships.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Your current dasha period is Rahu mahadasha, which may bring unexpected opportunities and transformations in your life.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "current_dashas.lord",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "As of today, the panchang indicates that the moon is in the nakshatra of Purva Phalguni, a favorable time for creative pursuits and social interactions.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "panchang_today.nakshatra",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "With the sun in a fire sign, your energy levels are likely to be high, and you may feel an increased desire to take action on your goals.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Overall, this is a dynamic and potentially exciting time for you, with opportunities for growth and self-expression.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Your Mars in Scorpio adds a layer of intensity and passion to your endeavors, driving you to pursue your desires with determination and focus.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          }
+        ],
+        "hallucination_rate": 0.8571
+      },
+      "grounded_result": {
+        "chart_id": "dce87405-6be4-4d41-a847-49512131d463",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "The birth chart shows the Sun, Mercury, and Saturn in the 8th house in Pisces, with the Sun and Saturn in the Revati nakshatra. The Moon is in the 3rd house in Libra, in the Chitra nakshatra. Venus and Jupiter are in the 7th house in Aquarius, with Venus in the Shatabhisha nakshatra and Jupiter in the Purva Bhadrapada nakshatra. Mars is in the 9th house in Aries, in the Ashwini nakshatra. The current dasha period is of Jupiter, which started on January 21, 2018, and Venus, which started on December 3, 2025. Today's panchang indicates the Moon is in Libra and the Sun is in Cancer, with the tithi being Navami and the nakshatra being Vishakha.",
+        "claims": [
+          {
+            "claim": {
+              "text": "The birth chart shows the Sun, Mercury, and Saturn in the 8th house in Pisces, with the Sun and Saturn in the Revati nakshatra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[0].house,positions[0].sign,positions[0].nakshatra,positions[2].house,positions[2].sign,positions[2].nakshatra,positions[6].house,positions[6].sign,positions[6].nakshatra",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The Moon is in the 3rd house in Libra, in the Chitra nakshatra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.moon_sign,positions[1].house,positions[1].nakshatra",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Venus and Jupiter are in the 7th house in Aquarius, with Venus in the Shatabhisha nakshatra and Jupiter in the Purva Bhadrapada nakshatra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[3].house,positions[3].sign,positions[3].nakshatra,positions[5].house,positions[5].sign,positions[5].nakshatra",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Mars is in the 9th house in Aries, in the Ashwini nakshatra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[4].house,positions[4].sign,positions[4].nakshatra",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The current dasha period is of Jupiter, which started on January 21, 2018, and Venus, which started on December 3, 2025.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[0].lord,current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Today's panchang indicates the Moon is in Libra and the Sun is in Cancer, with the tithi being Navami and the nakshatra being Vishakha.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.tithi,panchang_today.nakshatra,panchang_today.moon_sign,panchang_today.sun_sign",
+            "confidence": 0.95
+          }
+        ],
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "birth_details": {
+        "date": "1990-11-03",
+        "time": "06:20",
+        "latitude": 28.6139,
+        "longitude": 77.209,
+        "timezone_offset_hours": 5.5
+      },
+      "ungrounded_result": {
+        "chart_id": "e74e3e2c-16ed-419c-8e5a-2e823335da0c",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "Based on your birth chart, you have a Scorpio ascendant with a strong placement of Mars in the 1st house, indicating a bold and adventurous personality. Your Moon is placed in Cancer, which suggests a strong emotional connection to family and a nurturing approach to relationships. Currently, you are under the influence of the Rahu mahadasha, which can bring unexpected events and transformations in your life. As per today's panchang, the moon is in the constellation of Purva Phalguni, a favorable nakshatra for creative pursuits and romantic endeavors. With the sun in its own sign of Leo, today is a good day for you to take charge and showcase your leadership skills. Overall, this period is likely to be dynamic and eventful, with opportunities for personal growth and self-expression.",
+        "claims": [
+          {
+            "claim": {
+              "text": "Based on your birth chart, you have a Scorpio ascendant with a strong placement of Mars in the 1st house.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.9
+          },
+          {
+            "claim": {
+              "text": "indicating a bold and adventurous personality.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Your Moon is placed in Cancer.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "which suggests a strong emotional connection to family and a nurturing approach to relationships.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Currently, you are under the influence of the Rahu mahadasha, which can bring unexpected events and transformations in your life.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[0].lord,current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "As per today's panchang, the moon is in the constellation of Purva Phalguni, a favorable nakshatra for creative pursuits and romantic endeavors.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "panchang_today.nakshatra",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "With the sun in its own sign of Leo, today is a good day for you to take charge and showcase your leadership skills.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "positions[0].sign",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Overall, this period is likely to be dynamic and eventful, with opportunities for personal growth and self-expression.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          }
+        ],
+        "hallucination_rate": 0.375
+      },
+      "grounded_result": {
+        "chart_id": "e74e3e2c-16ed-419c-8e5a-2e823335da0c",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "The birth chart shows the Sun, Mercury, and Venus in the 1st house in Libra. The Moon is in the 7th house in Aries, which often relates to partnerships. Mars is in the 8th house in Taurus and is retrograde. The current dasha period is led by Rahu, which started on April 2, 2026, and will continue until April 1, 2044. Today's panchang indicates the Moon is in Libra and the Sun is in Cancer, with the nakshatra being Vishakha.",
+        "claims": [
+          {
+            "claim": {
+              "text": "The birth chart shows the Sun, Mercury, and Venus in the 1st house in Libra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.moon_sign,positions[0].house,positions[0].sign,positions[2].house,positions[2].sign,positions[3].house,positions[3].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The Moon is in the 7th house in Aries, which.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[1].house,positions[1].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "often relates to partnerships.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Mars is in the 8th house in Taurus and is retrograde.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[4].house,positions[4].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The current dasha period is led by Rahu, which started on April 2, 2026, and will continue until April 1, 2044.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[0].lord,current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Today's panchang indicates the Moon is in Libra and the Sun is in Cancer, with the nakshatra being Vishakha.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.nakshatra,panchang_today.moon_sign,panchang_today.sun_sign,positions[0].sign",
+            "confidence": 0.95
+          }
+        ],
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "birth_details": {
+        "date": "2003-07-19",
+        "time": "22:10",
+        "latitude": 19.076,
+        "longitude": 72.8777,
+        "timezone_offset_hours": 5.5
+      },
+      "ungrounded_result": {
+        "chart_id": "64a34d89-09c7-4a26-b5f1-3c2c6a9e3e1b",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "Based on your birth chart, you have a Cancer ascendant with the moon placed in Scorpio, indicating intense emotional depth and strong intuition. Your Sun is in Cancer, which suggests a strong connection to family and a nurturing approach to life. Currently, you are in the Mercury mahadasha period, which can bring opportunities for communication, learning, and intellectual pursuits. As per today's panchang, the moon is in Purva Phalguni nakshatra, a favorable time for creative and romantic endeavors. With the current planetary transits, you may experience a boost in your social and professional life, and it's an auspicious day to take new initiatives. Overall, this period can be beneficial for personal growth, relationships, and career advancement.",
+        "claims": [
+          {
+            "claim": {
+              "text": "Based on your birth chart, you have a Cancer ascendant with the moon placed in Scorpio.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "indicating intense emotional depth and strong intuition.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Your Sun is in Cancer.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "which suggests a strong connection to family and a nurturing approach to life.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Currently, you are in the Mercury mahadasha period, which can bring opportunities for communication, learning, and intellectual pursuits.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "As per today's panchang, the moon is in Purva Phalguni nakshatra, a favorable time for creative and romantic endeavors.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "panchang_today.nakshatra",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "With the current planetary transits, you may experience a boost in your social and professional life, and it's an auspicious day to take new initiatives.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Overall, this period can be beneficial for personal growth, relationships, and career advancement.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          }
+        ],
+        "hallucination_rate": 0.25
+      },
+      "grounded_result": {
+        "chart_id": "64a34d89-09c7-4a26-b5f1-3c2c6a9e3e1b",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "The birth chart shows the Sun, Mercury, and Jupiter placed in the 6th house in the sign of Cancer. Mars is in the 1st house in the sign of Aquarius, which can relate to the individual's personality and overall approach to life. The Moon is in the 2nd house in the sign of Pisces, which can influence emotional and financial aspects. The current dasha period is led by Ketu, with a sub-period of Rahu, which started on November 5, 2025, and will end on November 23, 2026. Today's panchang indicates a Navami tithi, Vishakha nakshatra, and Shubha yoga, with the Moon in Libra and the Sun in Cancer.",
+        "claims": [
+          {
+            "claim": {
+              "text": "The birth chart shows the Sun, Mercury, and Jupiter placed in the 6th house in the sign of Cancer.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign,positions[0].house,positions[2].house,positions[2].sign,positions[5].house,positions[5].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Mars is in the 1st house in the sign of Aquarius, which can relate to the individual's personality and overall approach to life.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[4].house,positions[4].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The Moon is in the 2nd house in the sign of Pisces, which can influence emotional and financial aspects.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[1].house,positions[1].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The current dasha period is led by Ketu, with a sub-period of Rahu, which started on November 5, 2025, and will end on November 23, 2026.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[0].lord,current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Today's panchang indicates a Navami tithi, Vishakha nakshatra, and Shubha yoga, with the Moon in Libra and the Sun in Cancer.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.tithi,panchang_today.nakshatra,panchang_today.yoga,panchang_today.moon_sign,panchang_today.sun_sign",
+            "confidence": 0.95
+          }
+        ],
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "birth_details": {
+        "date": "1985-01-27",
+        "time": "11:45",
+        "latitude": 40.7128,
+        "longitude": -74.006,
+        "timezone_offset_hours": -5.0
+      },
+      "ungrounded_result": {
+        "chart_id": "ec0340b9-fb6f-4340-b101-a23458913396",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "Based on your birth chart, you have a strong Aquarius ascendant with Saturn, the ruler of your ascendant, placed in Scorpio, indicating a intense and profound approach to life. Your Moon is in Cancer, suggesting a strong emotional connection to family and a nurturing nature. Currently, you are in the Mercury mahadasha period, which can bring opportunities for communication, learning, and intellectual pursuits. Today's panchang indicates a favorable tithi, with the moon in the 9th tithi of Shukla Paksha, and a nakshatra of Purva Phalguni, which can support creative and romantic endeavors. With the current planetary transits, this is a good time to focus on personal growth, relationships, and exploring your passions. Overall, this period can bring a mix of challenges and opportunities, and it's essential to stay adaptable and open to new experiences.",
+        "claims": [
+          {
+            "claim": {
+              "text": "Based on your birth chart, you have a strong Aquarius ascendant with Saturn, the ruler of your ascendant, placed in Scorpio.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[6].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "indicating a intense and profound approach to life.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Your Moon is in Cancer.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "suggesting a strong emotional connection to family and a nurturing nature.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Currently, you are in the Mercury mahadasha period, which can bring opportunities for communication, learning, and intellectual pursuits.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Today's panchang indicates a favorable tithi, with the moon in the 9th tithi of Shukla Paksha, and a nakshatra of Purva Phalguni, which can support creative and romantic endeavors.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "With the current planetary transits, this is a good time to focus on personal growth, relationships, and exploring your passions.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Overall, this period can bring a mix of challenges and opportunities, and it's essential to stay adaptable and open to new experiences.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          }
+        ],
+        "hallucination_rate": 0.125
+      },
+      "grounded_result": {
+        "chart_id": "ec0340b9-fb6f-4340-b101-a23458913396",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "The birth chart shows the Sun in the 10th house in Capricorn, and Jupiter is also in the 10th house in Capricorn. The Moon is in the 12th house in Pisces, where it is joined by Venus and Mars. Saturn is in the 8th house in Scorpio. The current dasha period is led by the Moon, which began on February 2, 2020, and will continue until February 2, 2030, with a sub-period of Mercury that started on December 2, 2025. Mars in the 12th house often relates to the spiritual and emotional aspects of partnerships. The panchang for today, July 23, 2026, indicates a Navami tithi and a Vishakha nakshatra.",
+        "claims": [
+          {
+            "claim": {
+              "text": "The birth chart shows the Sun in the 10th house in Capricorn, and Jupiter is also in the 10th house in Capricorn.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[0].house,positions[0].sign,positions[5].house,positions[5].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The Moon is in the 12th house in Pisces, where it is joined by Venus and Mars.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[1].house,positions[1].sign,positions[3].house,positions[3].sign,positions[4].house,positions[4].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Saturn is in the 8th house in Scorpio.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[6].house,positions[6].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The current dasha period is led by the Moon, which began on February 2, 2020, and will continue until February 2, 2030, with a sub-period of Mercury that started on December 2, 2025.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[0].lord,current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Mars in the 12th house.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[4].house",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "often relates to the spiritual and emotional aspects of partnerships.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "The panchang for today, July 23, 2026, indicates a Navami tithi and a Vishakha nakshatra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.tithi,panchang_today.nakshatra",
+            "confidence": 0.95
+          }
+        ],
+        "hallucination_rate": 0.0
+      }
+    },
+    {
+      "birth_details": {
+        "date": "2015-09-05",
+        "time": "03:55",
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "timezone_offset_hours": 0.0
+      },
+      "ungrounded_result": {
+        "chart_id": "53ae20c1-859e-47cd-94fc-a5c6dc093d06",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "Based on your birth chart, you have a strong placement of Mercury in Virgo and a fiery Mars in Leo, indicating a sharp mind and a passionate approach to life. Your ascendant, or rising sign, is Cancer, suggesting a nurturing and protective nature. Currently, you are in the Mercury mahadasha period, which may bring opportunities for learning, communication, and intellectual pursuits. As for today's panchang, the moon is in the auspicious nakshatra of Pushya, which can bring a sense of calm and stability to your emotions. With the current tithi being Dwitiya and the karana being Garaja, it's a favorable day for creative and spiritual activities. Overall, this combination suggests a day of mental clarity and emotional balance, allowing you to navigate life's challenges with ease and intuition.",
+        "claims": [
+          {
+            "claim": {
+              "text": "Based on your birth chart, you have a strong placement of Mercury in Virgo and a fiery Mars in Leo.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[2].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "indicating a sharp mind and a passionate approach to life.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Your ascendant, or rising sign, is Cancer.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "suggesting a nurturing and protective nature.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Currently, you are in the Mercury mahadasha period, which may bring opportunities for learning, communication, and intellectual pursuits.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "As for today's panchang, the moon is in the auspicious nakshatra of Pushya, which can bring a sense of calm and stability to your emotions.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "panchang_today.nakshatra",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "With the current tithi being Dwitiya and the karana being Garaja, it's a favorable day for creative and spiritual activities.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "ungrounded",
+            "grounded_field_path": "panchang_today.tithi",
+            "confidence": 0.0
+          },
+          {
+            "claim": {
+              "text": "Overall, this combination suggests a day of mental clarity and emotional balance, allowing you to navigate life's challenges with ease and intuition.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "unverifiable",
+            "grounded_field_path": null,
+            "confidence": 0.0
+          }
+        ],
+        "hallucination_rate": 0.375
+      },
+      "grounded_result": {
+        "chart_id": "53ae20c1-859e-47cd-94fc-a5c6dc093d06",
+        "model_used": "groq:llama-3.3-70b-versatile",
+        "narrative": "The birth chart shows the Sun in the 1st house in the sign of Leo, and Jupiter is also placed in the 1st house in Leo. The Moon is in the 10th house in the sign of Taurus. Mars and Venus are in the 12th house, with Mars in the sign of Cancer and Venus also in Cancer, though Venus is retrograde. The current dasha period is led by Mars, which started on November 9, 2021, and will end on November 8, 2028, with a sub-period of Ketu that began on May 7, 2026. Today's panchang indicates the Moon is in the sign of Libra.",
+        "claims": [
+          {
+            "claim": {
+              "text": "The birth chart shows the Sun in the 1st house in the sign of Leo, and Jupiter is also placed in the 1st house in Leo.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[0].house,positions[0].sign,positions[5].house,positions[5].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The Moon is in the 10th house in the sign of Taurus.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "positions[1].house,positions[1].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Mars and Venus are in the 12th house, with Mars in the sign of Cancer and Venus also in Cancer, though Venus is retrograde.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.sun_sign,positions[3].house,positions[3].sign,positions[4].house,positions[4].sign",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "The current dasha period is led by Mars, which started on November 9, 2021, and will end on November 8, 2028, with a sub-period of Ketu that began on May 7, 2026.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "current_dashas[0].lord,current_dashas[1].lord",
+            "confidence": 0.95
+          },
+          {
+            "claim": {
+              "text": "Today's panchang indicates the Moon is in the sign of Libra.",
+              "source_model": "groq:llama-3.3-70b-versatile"
+            },
+            "status": "grounded",
+            "grounded_field_path": "panchang_today.moon_sign",
+            "confidence": 0.95
+          }
+        ],
+        "hallucination_rate": 0.0
+      }
+    }
+  ],
+  "avg_ungrounded_hallucination_rate": 0.3964,
+  "avg_grounded_hallucination_rate": 0.0,
+  "relative_reduction": 1.0
+}
