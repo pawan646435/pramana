@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background: radial-gradient(ellipse at 30% 10%, #12122b 0%, #05060f 55%, #030308 100%);
+  color: #e8e6f5;
+  font-family: 'Inter', sans-serif;
+}
+
+.glass {
+  background: linear-gradient(155deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.gold-text {
+  background: linear-gradient(120deg, #f0dca0, #c9a86a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(201,168,106,0.95), rgba(201,168,106,0.65));
+  border: none;
+  border-radius: 12px;
+  padding: 13px 26px;
+  color: #1a1608;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201,168,106,0.3);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 12px;
+  padding: 13px 26px;
+  color: #e8e6f5;
+  font-weight: 500;
+  font-size: 13.5px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.badge-grounded { background: rgba(111,212,168,0.15); color: #6fd4a8; }
+.badge-ungrounded { background: rgba(212,120,122,0.15); color: #d4787a; }
+.badge-unverifiable { background: rgba(139,135,194,0.2); color: #a49fd6; }
