@@ -1,21 +1,36 @@
 from datetime import date
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 
 from app.models.chart import BirthDetails, ComputedChart, PanchangDay
 from app.compute.chart_builder import build_chart
 from app.compute.panchang import compute_panchang
+from app.db.cache import build_chart_cache_key, get_cached_chart, set_cached_chart
 
 router = APIRouter()
 
 
 @router.post("/compute", response_model=ComputedChart)
-async def compute_chart_endpoint(birth: BirthDetails) -> ComputedChart:
+async def compute_chart_endpoint(birth: BirthDetails, response: Response) -> ComputedChart:
     """
     Pure ground-truth computation - no LLM involved. This is what
     generation/ will read from and verification/ will check against.
+
+    Cache-aside via Redis: a cache hit skips recomputation entirely. A
+    Redis outage on either read or write degrades this back to always
+    computing fresh - it never breaks the response.
     """
-    return build_chart(birth)
+    cache_key = build_chart_cache_key(birth)
+
+    cached = await get_cached_chart(cache_key)
+    if cached is not None:
+        response.headers["X-Cache"] = "HIT"
+        return cached
+
+    chart = build_chart(birth)
+    response.headers["X-Cache"] = "MISS"
+    await set_cached_chart(cache_key, chart)
+    return chart
 
 
 @router.get("/panchang/today", response_model=PanchangDay)
