@@ -2,10 +2,33 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { api, EvalReport, PanchangDay } from "@/lib/api";
 import CssStarfield from "@/components/CssStarfield";
 import HistorySection from "@/components/HistorySection";
-import TryItYourselfCard from "@/components/TryItYourselfCard";
+
+// TryItYourselfCard is the sole consumer of framer-motion in this app
+// (~111KB parsed, its own chunk) - the expand/collapse animation isn't
+// needed for first paint, so deferring it keeps that weight out of the
+// dashboard's initial JS. The fallback mirrors the collapsed card's
+// structure (same padding, same header row, same input-row shape) so
+// there's no layout shift when the real chunk swaps in.
+const TryItYourselfCard = dynamic(() => import("@/components/TryItYourselfCard"), {
+  loading: () => (
+    <div className="glass p-7 animate-pulse">
+      <div className="flex items-start justify-between gap-3 mb-1">
+        <div className="h-4 w-28 rounded bg-white/10" />
+        <div className="w-7 h-7 rounded-full bg-white/5" />
+      </div>
+      <div className="h-3 w-56 rounded bg-white/5 mb-5 mt-2" />
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="h-10 rounded-xl bg-white/[0.04] border border-white/10" />
+        <div className="h-10 rounded-xl bg-white/[0.04] border border-white/10" />
+      </div>
+      <div className="h-11 rounded-xl bg-white/10" />
+    </div>
+  ),
+});
 
 export default function DashboardPage() {
   const [panchang, setPanchang] = useState<PanchangDay | null>(null);

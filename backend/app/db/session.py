@@ -14,7 +14,27 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 from app.core.config import settings
 
-engine = create_async_engine(settings.database_url, pool_pre_ping=True)
+# connect_args here work around two Neon-specific quirks on the pooled
+# ("-pooler") endpoint:
+#
+# - statement_cache_size=0: asyncpg caches prepared statements per
+#   physical connection by default. Neon's pooler runs PgBouncer in
+#   transaction-pooling mode, which can hand a client a different
+#   physical connection between statements - so a statement prepared on
+#   one connection can be replayed against another that never prepared
+#   it, surfacing as "prepared statement ... does not exist" under real
+#   traffic. This is a documented asyncpg/PgBouncer interaction, not
+#   specific to this app. Disabling asyncpg's statement cache avoids it.
+# - ssl="require": Neon's connection strings normally carry
+#   ?sslmode=require as a libpq/psycopg2-style URL query param, which
+#   asyncpg does not parse the same way - passed as a URL param it's
+#   silently ignored rather than erroring, so SSL must be requested
+#   explicitly via a connect() argument instead.
+engine = create_async_engine(
+    settings.database_url,
+    pool_pre_ping=True,
+    connect_args={"ssl": "require", "statement_cache_size": 0},
+)
 
 async_session_factory = async_sessionmaker(engine, expire_on_commit=False)
 

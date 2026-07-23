@@ -1,8 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import Hero3DScene from "@/components/Hero3DScene";
+import dynamic from "next/dynamic";
 import { useIsCoarsePointer } from "@/lib/useIsCoarsePointer";
+
+// Three.js + procedural texture generation is the single heaviest chunk
+// in this app. It needs a real DOM/WebGL context (can't run server-side
+// anyway), so ssr:false is free - no hydration cost avoided, just load
+// deferred until the browser actually needs it. The fallback is a plain
+// gradient matching the page background, not a scene skeleton, so there's
+// no layout shift and nothing to visually "swap out" once the real chunk
+// mounts - it just fades in on top of an already-correct-looking backdrop.
+const Hero3DScene = dynamic(() => import("@/components/Hero3DScene"), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="fixed inset-0 z-0 animate-pulse"
+      style={{ background: "radial-gradient(ellipse at 30% 10%, #12122b 0%, #05060f 55%, #030308 100%)" }}
+    />
+  ),
+});
 
 export default function LandingPage() {
   const isCoarsePointer = useIsCoarsePointer();

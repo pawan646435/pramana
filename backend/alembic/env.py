@@ -75,10 +75,15 @@ async def run_async_migrations() -> None:
 
     """
 
+    # Same connect_args fix as app/db/session.py, needed here too since
+    # this builds its own engine rather than reusing that module's - see
+    # the comment there for why statement_cache_size=0 and ssl="require"
+    # are both required against Neon's pooled endpoint.
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        connect_args={"ssl": "require", "statement_cache_size": 0},
     )
 
     async with connectable.connect() as connection:

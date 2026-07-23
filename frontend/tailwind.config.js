@@ -17,8 +17,9 @@ module.exports = {
         mint: "#6fd4a8",
       },
       fontFamily: {
-        serif: ["Cormorant Garamond", "serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        sans: ["var(--font-inter)", "sans-serif"],
+        serif: ["var(--font-cormorant-garamond)", "serif"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
     },
   },
