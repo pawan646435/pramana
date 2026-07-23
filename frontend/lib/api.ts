@@ -74,6 +74,61 @@ export interface EvalReport {
   relative_reduction: number;
 }
 
+export interface EvalRunSummary {
+  id: string;
+  provider: string;
+  avg_ungrounded_hallucination_rate: number;
+  avg_grounded_hallucination_rate: number;
+  relative_reduction: number;
+  num_cases: number;
+  created_at: string;
+}
+
+export interface EvalCaseDetail {
+  id: string;
+  birth_date: string;
+  birth_time: string;
+  latitude: number;
+  longitude: number;
+  timezone_offset_hours: number;
+  ungrounded_hallucination_rate: number;
+  grounded_hallucination_rate: number;
+  ungrounded_narrative: string;
+  grounded_narrative: string;
+  created_at: string;
+}
+
+export interface EvalRunDetail extends EvalRunSummary {
+  cases: EvalCaseDetail[];
+}
+
+export interface ClaimDetail {
+  text: string;
+  source_model: string;
+  status: ClaimStatus;
+  grounded_field_path: string | null;
+  confidence: number;
+}
+
+export interface GenerationLogSummary {
+  id: string;
+  birth_date: string;
+  birth_time: string;
+  latitude: number;
+  longitude: number;
+  timezone_offset_hours: number;
+  provider: string;
+  model_used: string;
+  narrative: string;
+  hallucination_rate: number;
+  num_claims: number;
+  num_grounded_claims: number;
+  num_ungrounded_claims: number;
+  num_unverifiable_claims: number;
+  claims_detail: ClaimDetail[];
+  created_at: string;
+}
+
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
@@ -105,4 +160,13 @@ export const api = {
     apiFetch<EvalReport>(`/api/eval/run?provider=${provider}`, {
       method: "POST",
     }),
+
+  listEvalRuns: (limit: number = 20) =>
+    apiFetch<EvalRunSummary[]>(`/api/history/eval-runs?limit=${limit}`),
+
+  getEvalRun: (id: string) =>
+    apiFetch<EvalRunDetail>(`/api/history/eval-runs/${id}`),
+
+  listGenerations: (limit: number = 20) =>
+    apiFetch<GenerationLogSummary[]>(`/api/history/generations?limit=${limit}`),
 };

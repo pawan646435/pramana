@@ -9,7 +9,7 @@ pydantic result already exists, never the other way around.
 import uuid
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, Text, func
+from sqlalchemy import DateTime, ForeignKey, Text, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -29,7 +29,7 @@ class EvalRun(Base):
     avg_grounded_hallucination_rate: Mapped[float] = mapped_column()
     relative_reduction: Mapped[float] = mapped_column()
     num_cases: Mapped[int] = mapped_column()
-    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     cases: Mapped[list["EvalCase"]] = relationship(back_populates="eval_run", cascade="all, delete-orphan")
 
@@ -53,7 +53,7 @@ class EvalCase(Base):
     ungrounded_narrative: Mapped[str] = mapped_column(Text)
     grounded_narrative: Mapped[str] = mapped_column(Text)
 
-    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     eval_run: Mapped["EvalRun"] = relationship(back_populates="cases")
 
@@ -83,4 +83,4 @@ class GenerationLog(Base):
 
     claims_detail: Mapped[list[dict]] = mapped_column(JSONB)
 
-    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

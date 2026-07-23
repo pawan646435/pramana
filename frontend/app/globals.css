@@ -65,3 +65,16 @@ html, body {
 .badge-grounded { background: rgba(111,212,168,0.15); color: #6fd4a8; }
 .badge-ungrounded { background: rgba(212,120,122,0.15); color: #d4787a; }
 .badge-unverifiable { background: rgba(139,135,194,0.2); color: #a49fd6; }
+
+.css-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #e8e6f5;
+  opacity: var(--star-opacity, 0.4);
+  animation: css-star-twinkle ease-in-out infinite;
+}
+
+@keyframes css-star-twinkle {
+  0%, 100% { opacity: var(--star-opacity, 0.4); }
+  50% { opacity: 0.05; }
+}

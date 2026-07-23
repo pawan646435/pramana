@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api, EvalReport, GenerationResult, PanchangDay, ClaimStatus } from "@/lib/api";
+import CssStarfield from "@/components/CssStarfield";
+import HistorySection from "@/components/HistorySection";
 
 const STATUS_STYLES: Record<ClaimStatus, { badge: string; icon: string }> = {
   grounded: { badge: "badge-grounded", icon: "✓" },
@@ -69,6 +71,7 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen p-11 max-w-[1180px] mx-auto">
+      <CssStarfield />
       <header className="flex justify-between items-center mb-10">
         <div>
           <div className="font-serif text-3xl font-semibold gold-text">Pramana</div>
@@ -147,6 +150,20 @@ export default function DashboardPage() {
           </button>
           {tryError && <div className="text-sm text-rose mb-3">{tryError}</div>}
 
+          {tryLoading && !tryResult && (
+            <div className="mt-4 pt-4 border-t border-white/10 space-y-3 animate-pulse" aria-label="Generating reading">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="flex gap-3">
+                  <div className="w-5.5 h-5.5 rounded-full bg-white/10 shrink-0" />
+                  <div className="flex-1 space-y-1.5 pt-0.5">
+                    <div className="h-2.5 rounded-full bg-white/10" style={{ width: `${85 - i * 12}%` }} />
+                    <div className="h-2.5 rounded-full bg-white/[0.06]" style={{ width: `${55 - i * 8}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {tryResult && (
             <div className="mt-4 pt-4 border-t border-white/10">
               <div className="text-xs text-indigo mb-3">
@@ -197,7 +214,7 @@ export default function DashboardPage() {
 
       {/* Per-case eval breakdown */}
       {evalReport && (
-        <div className="glass p-7">
+        <div className="glass p-7 mb-7">
           <div className="text-[15px] font-medium mb-1">Per-chart results</div>
           <div className="text-xs text-indigo mb-5">Each row is one chart from the golden set, both conditions checked against the same real ground truth</div>
           <div className="space-y-4">
@@ -215,6 +232,8 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      <HistorySection />
     </main>
   );
 }
