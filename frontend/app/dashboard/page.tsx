@@ -2,15 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { api, EvalReport, GenerationResult, PanchangDay, ClaimStatus } from "@/lib/api";
+import { api, EvalReport, PanchangDay } from "@/lib/api";
 import CssStarfield from "@/components/CssStarfield";
 import HistorySection from "@/components/HistorySection";
-
-const STATUS_STYLES: Record<ClaimStatus, { badge: string; icon: string }> = {
-  grounded: { badge: "badge-grounded", icon: "✓" },
-  ungrounded: { badge: "badge-ungrounded", icon: "!" },
-  unverifiable: { badge: "badge-unverifiable", icon: "?" },
-};
+import TryItYourselfCard from "@/components/TryItYourselfCard";
 
 export default function DashboardPage() {
   const [panchang, setPanchang] = useState<PanchangDay | null>(null);
@@ -19,17 +14,6 @@ export default function DashboardPage() {
   const [evalReport, setEvalReport] = useState<EvalReport | null>(null);
   const [evalLoading, setEvalLoading] = useState(false);
   const [evalError, setEvalError] = useState<string | null>(null);
-
-  const [tryBirth, setTryBirth] = useState({
-    date: "1998-04-12",
-    time: "14:35",
-    latitude: 25.59,
-    longitude: 85.13,
-    timezone_offset_hours: 5.5,
-  });
-  const [tryResult, setTryResult] = useState<GenerationResult | null>(null);
-  const [tryLoading, setTryLoading] = useState(false);
-  const [tryError, setTryError] = useState<string | null>(null);
 
   useEffect(() => {
     api
@@ -48,20 +32,6 @@ export default function DashboardPage() {
       setEvalError(e.message ?? "Eval run failed");
     } finally {
       setEvalLoading(false);
-    }
-  }
-
-  async function handleTryIt() {
-    setTryLoading(true);
-    setTryError(null);
-    setTryResult(null);
-    try {
-      const result = await api.generateNarrative(tryBirth, "groq");
-      setTryResult(result);
-    } catch (e: any) {
-      setTryError(e.message ?? "Generation failed");
-    } finally {
-      setTryLoading(false);
     }
   }
 
@@ -126,71 +96,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-7">
-        {/* Try it yourself */}
-        <div className="glass p-7">
-          <div className="text-[15px] font-medium mb-1">Try it yourself</div>
-          <div className="text-xs text-indigo mb-5">Enter birth details for a live, verified reading</div>
-
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <input
-              type="date"
-              value={tryBirth.date}
-              onChange={(e) => setTryBirth({ ...tryBirth, date: e.target.value })}
-              className="bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm"
-            />
-            <input
-              type="time"
-              value={tryBirth.time}
-              onChange={(e) => setTryBirth({ ...tryBirth, time: e.target.value })}
-              className="bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm"
-            />
-          </div>
-          <button className="btn-primary w-full mb-4" onClick={handleTryIt} disabled={tryLoading}>
-            {tryLoading ? "Generating…" : "Generate reading"}
-          </button>
-          {tryError && <div className="text-sm text-rose mb-3">{tryError}</div>}
-
-          {tryLoading && !tryResult && (
-            <div className="mt-4 pt-4 border-t border-white/10 space-y-3 animate-pulse" aria-label="Generating reading">
-              {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="flex gap-3">
-                  <div className="w-5.5 h-5.5 rounded-full bg-white/10 shrink-0" />
-                  <div className="flex-1 space-y-1.5 pt-0.5">
-                    <div className="h-2.5 rounded-full bg-white/10" style={{ width: `${85 - i * 12}%` }} />
-                    <div className="h-2.5 rounded-full bg-white/[0.06]" style={{ width: `${55 - i * 8}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {tryResult && (
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <div className="text-xs text-indigo mb-3">
-                Hallucination rate: <span className="text-goldLight font-mono">{(tryResult.hallucination_rate * 100).toFixed(0)}%</span>
-                {" · "}{tryResult.model_used}
-              </div>
-              <div className="space-y-3 max-h-80 overflow-y-auto">
-                {tryResult.claims.map((c, i) => {
-                  const style = STATUS_STYLES[c.status];
-                  return (
-                    <div key={i} className="flex gap-3">
-                      <div className={`w-5.5 h-5.5 rounded-full flex items-center justify-center text-xs shrink-0 ${style.badge}`}>
-                        {style.icon}
-                      </div>
-                      <div>
-                        <div className="text-[13.5px] text-[#d4d1ec] leading-snug">{c.claim.text}</div>
-                        {c.grounded_field_path && (
-                          <div className="text-[11px] font-mono text-indigoDeep mt-0.5">→ {c.grounded_field_path}</div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
+        <TryItYourselfCard />
 
         {/* Today's fact - genuinely computed, not generated */}
         <div className="glass p-7 flex flex-col gap-3.5">
