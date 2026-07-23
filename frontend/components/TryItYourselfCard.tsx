@@ -55,10 +55,9 @@ function Narrative({ result, expanded }: NarrativeProps) {
 
 interface ClaimsListProps {
   result: GenerationResult;
-  scrollable: boolean;
 }
 
-function ClaimsList({ result, scrollable }: ClaimsListProps) {
+function ClaimsList({ result }: ClaimsListProps) {
   return (
     <div className="mt-5 pt-4 border-t border-white/10">
       <div className="text-xs text-indigo mb-3">
@@ -66,7 +65,7 @@ function ClaimsList({ result, scrollable }: ClaimsListProps) {
         {" · "}
         {result.model_used}
       </div>
-      <div className={`space-y-3 ${scrollable ? "max-h-80 overflow-y-auto" : ""}`}>
+      <div className="space-y-3">
         {result.claims.map((c, i) => {
           const style = STATUS_STYLES[c.status];
           return (
@@ -158,10 +157,10 @@ function CardBody({
       )}
 
       {tryResult && (
-        <>
+        <div className={expanded ? undefined : "max-h-[420px] overflow-y-auto"}>
           <Narrative result={tryResult} expanded={expanded} />
-          <ClaimsList result={tryResult} scrollable={!expanded} />
-        </>
+          <ClaimsList result={tryResult} />
+        </div>
       )}
     </>
   );
