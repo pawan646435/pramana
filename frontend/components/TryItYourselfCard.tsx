@@ -38,6 +38,21 @@ function ExpandIcon({ expanded }: { expanded: boolean }) {
   );
 }
 
+interface NarrativeProps {
+  result: GenerationResult;
+  expanded: boolean;
+}
+
+function Narrative({ result, expanded }: NarrativeProps) {
+  return (
+    <div className={expanded ? "mt-4" : "mt-4 pt-4 border-t border-white/10"}>
+      <div className={`font-serif text-[#ede9f7] leading-relaxed ${expanded ? "text-xl" : "text-lg"}`}>
+        {result.narrative}
+      </div>
+    </div>
+  );
+}
+
 interface ClaimsListProps {
   result: GenerationResult;
   scrollable: boolean;
@@ -45,9 +60,9 @@ interface ClaimsListProps {
 
 function ClaimsList({ result, scrollable }: ClaimsListProps) {
   return (
-    <div className="mt-4 pt-4 border-t border-white/10">
+    <div className="mt-5 pt-4 border-t border-white/10">
       <div className="text-xs text-indigo mb-3">
-        Hallucination rate: <span className="text-goldLight font-mono">{(result.hallucination_rate * 100).toFixed(0)}%</span>
+        How this was verified · Hallucination rate: <span className="text-goldLight font-mono">{(result.hallucination_rate * 100).toFixed(0)}%</span>
         {" · "}
         {result.model_used}
       </div>
@@ -142,7 +157,12 @@ function CardBody({
         </div>
       )}
 
-      {tryResult && <ClaimsList result={tryResult} scrollable={!expanded} />}
+      {tryResult && (
+        <>
+          <Narrative result={tryResult} expanded={expanded} />
+          <ClaimsList result={tryResult} scrollable={!expanded} />
+        </>
+      )}
     </>
   );
 }

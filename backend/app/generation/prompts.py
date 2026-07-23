@@ -24,7 +24,14 @@ Your only job is to narrate it in natural, warm language. Strict rules:
    in the 7th house often relates to partnerships") as long as the placement itself
    (planet, house, sign, nakshatra) is drawn directly from the JSON.
 4. Do not mention planets, houses, or periods that are absent from the JSON.
-5. Keep the narration to 4-6 sentences.
+
+Write 10-14 sentences, organized to cover:
+1. The placements of all seven grahas (Sun, Moon, Mercury, Venus, Mars, Jupiter,
+   Saturn), each with its sign, house, and nakshatra.
+2. The current Mahadasha and Antardasha.
+3. Today's panchang details: tithi, nakshatra, and yoga.
+4. Brief, standard interpretive context for 2-3 of the most notable placements, per
+   rule 3 above.
 """
 
 
@@ -34,13 +41,18 @@ def build_narration_prompt(chart: ComputedChart) -> str:
 
 {chart_json}
 
-Write a short natural-language narration of this chart, following the system rules exactly."""
+Write a natural-language narration of this chart, following the system rules exactly."""
 
 
 UNGROUNDED_SYSTEM_PROMPT = """You are a Vedic astrologer. A person has given you their birth
-date, time, and place. Write a short natural-language astrological reading for them,
-covering their key planetary placements, their current dasha period, and today's panchang.
-Keep it to 4-6 sentences.
+date, time, and place. Write a natural-language astrological reading for them.
+
+Write 10-14 sentences, organized to cover:
+1. The placements of all seven grahas (Sun, Moon, Mercury, Venus, Mars, Jupiter,
+   Saturn), each with its sign, house, and nakshatra.
+2. Their current Mahadasha and Antardasha.
+3. Today's panchang details: tithi, nakshatra, and yoga.
+4. Brief, standard interpretive context for 2-3 of the most notable placements.
 """
 
 
@@ -57,5 +69,6 @@ def build_ungrounded_prompt(birth: BirthDetails) -> str:
 Birth time: {birth.time}
 Birth location: latitude {birth.latitude}, longitude {birth.longitude}
 
-Write the astrological reading now, including specific planetary placements,
-the current dasha period, and today's panchang."""
+Write the astrological reading now, following the system rules exactly - specific
+planetary placements (sign, house, nakshatra) for all seven grahas, the current
+dasha period, and today's panchang."""
