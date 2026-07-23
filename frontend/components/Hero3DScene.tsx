@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { useIsCoarsePointer } from "@/lib/useIsCoarsePointer";
 
 interface Fact {
   name: string;
@@ -34,17 +35,32 @@ export default function Hero3DScene() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [isPointerOverPlanet, setIsPointerOverPlanet] = useState(false);
+  const isCoarsePointer = useIsCoarsePointer();
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    // On narrow/portrait viewports (aspect < 1, e.g. a phone) the same
+    // FOV + distance that frames the scene nicely on a landscape/desktop
+    // aspect ratio crops the orbit ring on the sides. Widening the FOV
+    // and pulling the camera back as aspect ratio drops keeps the full
+    // solar system visible and centered instead of feeling zoomed in.
+    function cameraSetupForAspect(aspect: number): { fov: number; distance: number } {
+      if (aspect >= 1) return { fov: 50, distance: 54 };
+      const t = Math.min(1, (1 - aspect) / 0.7); // 0 at aspect=1, 1 at aspect<=0.3
+      return { fov: 50 + t * 22, distance: 54 + t * 26 };
+    }
+
+    const initialAspect = window.innerWidth / window.innerHeight;
+    const initialSetup = cameraSetupForAspect(initialAspect);
+    const camera = new THREE.PerspectiveCamera(initialSetup.fov, initialAspect, 0.1, 1000);
     // True center - the earlier left/right offset didn't read as centered
     // in practice. Layout now solves the text-overlap problem by giving
     // the page real scroll height instead of fighting for the same frame.
-    camera.position.set(0, 26, 54);
+    camera.position.set(0, 26, initialSetup.distance);
     camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -268,19 +284,44 @@ export default function Hero3DScene() {
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+    // THREE.Vector2's default (0,0) is screen-CENTER in NDC space, i.e.
+    // exactly where the Sun sits - without this flag, the very first
+    // animate() frame (before any real pointer event has ever fired)
+    // raycasts against that stale center point and shows the Sun's fact
+    // card unprompted, before the user has touched or moved anything.
+    let hasRealPointerPosition = false;
     let hoveredMesh: THREE.Object3D | null = null;
     let draggedPlanet: THREE.Mesh | null = null;
     const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const dragIntersection = new THREE.Vector3();
 
+    // Touch has no hover state, so tap-to-reveal replaces hover-to-reveal:
+    // a tap (pointerdown+pointerup on the same spot, not a drag) on a
+    // planet pins its fact card open until the user taps elsewhere. These
+    // track that gesture and the manual scroll-passthrough described below.
+    let pointerDownClientY = 0;
+    let touchMoved = false;
+    const TOUCH_MOVE_THRESHOLD = 8; // px - beyond this, a touch is a drag/scroll, not a tap
+    let isScrollingPage = false;
+    let lastScrollTouchY = 0;
+    let lastPointerWasTouch = false;
+
     function updateMouseFromEvent(e: PointerEvent) {
+      hasRealPointerPosition = true;
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
     }
 
     function onPointerMove(e: PointerEvent) {
+      lastPointerWasTouch = e.pointerType === "touch";
       updateMouseFromEvent(e);
-      setCursorPos({ x: e.clientX, y: e.clientY });
+      if (e.pointerType !== "touch") {
+        setCursorPos({ x: e.clientX, y: e.clientY });
+      }
+
+      if (Math.abs(e.clientY - pointerDownClientY) > TOUCH_MOVE_THRESHOLD) {
+        touchMoved = true;
+      }
 
       if (draggedPlanet) {
         e.preventDefault();
@@ -289,10 +330,22 @@ export default function Hero3DScene() {
           const angle = Math.atan2(dragIntersection.z, dragIntersection.x);
           draggedPlanet.userData.angle = angle;
         }
+      } else if (e.pointerType === "touch" && isScrollingPage) {
+        // The canvas has touch-action: none (needed so a planet drag never
+        // triggers the browser's native pan/zoom mid-gesture), which also
+        // suppresses native scrolling everywhere on the canvas - including
+        // over empty space. Reimplementing scroll manually here is what
+        // keeps "touch empty space to scroll the page" working.
+        const delta = lastScrollTouchY - e.clientY;
+        window.scrollBy(0, delta);
+        lastScrollTouchY = e.clientY;
       }
     }
 
     function onPointerDown(e: PointerEvent) {
+      lastPointerWasTouch = e.pointerType === "touch";
+      pointerDownClientY = e.clientY;
+      touchMoved = false;
       updateMouseFromEvent(e);
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(planets);
@@ -300,16 +353,46 @@ export default function Hero3DScene() {
         e.preventDefault();
         draggedPlanet = intersects[0].object as THREE.Mesh;
         setIsDragging(true);
+      } else if (e.pointerType === "touch") {
+        isScrollingPage = true;
+        lastScrollTouchY = e.clientY;
       }
     }
 
-    function onPointerUp() {
+    function onPointerUp(e: PointerEvent) {
+      if (e.pointerType === "touch" && !touchMoved) {
+        // A tap that didn't drag: on a planet/the sun, pin its fact card;
+        // on empty space, unpin whatever was showing. This is the touch
+        // equivalent of hover-in / hover-out, since touch has neither.
+        updateMouseFromEvent(e);
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects([sun, ...planets]);
+        if (intersects.length > 0) {
+          const obj = intersects[0].object;
+          const label = obj.userData.label as string;
+          const fact = FACTS[label];
+          if (fact) {
+            hoveredMesh = obj;
+            setHoveredFact(fact);
+            setHoveredLabel(label);
+            setCursorPos({ x: e.clientX, y: e.clientY });
+          }
+        } else {
+          hoveredMesh = null;
+          setHoveredFact(null);
+        }
+      }
       draggedPlanet = null;
+      isScrollingPage = false;
       setIsDragging(false);
     }
 
     function onResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const aspect = window.innerWidth / window.innerHeight;
+      const setup = cameraSetupForAspect(aspect);
+      camera.aspect = aspect;
+      camera.fov = setup.fov;
+      camera.position.z = setup.distance;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
@@ -339,6 +422,18 @@ export default function Hero3DScene() {
           }
         });
       });
+
+      // Continuous hover-raycasting only makes sense for mouse/trackpad -
+      // touch has no persistent pointer position between gestures, so this
+      // would otherwise re-trigger against a stale last-touch coordinate.
+      // Touch's equivalent (tap-to-pin) is handled entirely in onPointerUp.
+      // Also skip entirely until a real pointer event has fired at least
+      // once - see hasRealPointerPosition above.
+      if (lastPointerWasTouch || !hasRealPointerPosition) {
+        renderer.render(scene, camera);
+        scene.rotation.y += draggedPlanet ? 0 : 0.0003;
+        return;
+      }
 
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects([sun, ...planets]);
@@ -391,24 +486,32 @@ export default function Hero3DScene() {
 
   return (
     <>
-      <div ref={containerRef} className="fixed inset-0 z-0" style={{ cursor: "none" }} />
-
       <div
-        className="fixed z-40 pointer-events-none transition-transform duration-100"
-        style={{
-          left: cursorPos.x,
-          top: cursorPos.y,
-          transform: `translate(-50%, -50%) scale(${isDragging ? 1.4 : isPointerOverPlanet ? 1.2 : 1})`,
-        }}
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" style={{ filter: "drop-shadow(0 0 4px rgba(240,220,160,0.8))" }}>
-          <path
-            d="M9 0 L10.5 7.5 L18 9 L10.5 10.5 L9 18 L7.5 10.5 L0 9 L7.5 7.5 Z"
-            fill={isDragging ? "#f0dca0" : "#ffffff"}
-            opacity={isPointerOverPlanet || isDragging ? 1 : 0.85}
-          />
-        </svg>
-      </div>
+        ref={containerRef}
+        className="fixed inset-0 z-0"
+        style={{ cursor: isCoarsePointer ? "auto" : "none", touchAction: "none" }}
+      />
+
+      {/* Custom star cursor replaces the system cursor on mouse/trackpad
+          only - there's no cursor to replace on a touchscreen. */}
+      {!isCoarsePointer && (
+        <div
+          className="fixed z-40 pointer-events-none transition-transform duration-100"
+          style={{
+            left: cursorPos.x,
+            top: cursorPos.y,
+            transform: `translate(-50%, -50%) scale(${isDragging ? 1.4 : isPointerOverPlanet ? 1.2 : 1})`,
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" style={{ filter: "drop-shadow(0 0 4px rgba(240,220,160,0.8))" }}>
+            <path
+              d="M9 0 L10.5 7.5 L18 9 L10.5 10.5 L9 18 L7.5 10.5 L0 9 L7.5 7.5 Z"
+              fill={isDragging ? "#f0dca0" : "#ffffff"}
+              opacity={isPointerOverPlanet || isDragging ? 1 : 0.85}
+            />
+          </svg>
+        </div>
+      )}
 
       <div className="fixed bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none">
         <span className="text-[11px] tracking-[0.2em] uppercase text-[#ede9f7]/70">Swipe down</span>

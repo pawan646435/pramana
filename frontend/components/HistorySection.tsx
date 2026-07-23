@@ -30,7 +30,7 @@ function EvalRunRow({
   return (
     <button
       onClick={onToggle}
-      className="w-full flex justify-between items-center gap-4 py-3 px-3 -mx-3 rounded-xl border-b border-white/[0.06] last:border-0 text-left hover:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-gold/40 transition-colors"
+      className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5 py-3 px-3 -mx-3 rounded-xl border-b border-white/[0.06] last:border-0 text-left hover:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-gold/40 transition-colors"
       aria-expanded={isExpanded}
     >
       <div className="flex flex-col">
@@ -39,11 +39,11 @@ function EvalRunRow({
           {run.provider} · {run.num_cases} charts
         </span>
       </div>
-      <div className="flex gap-5 text-sm font-mono items-center">
+      <div className="flex gap-3 sm:gap-5 text-sm font-mono items-center">
         <span className="text-rose">{(run.avg_ungrounded_hallucination_rate * 100).toFixed(0)}%</span>
         <span className="text-indigoDeep">→</span>
         <span className="text-mint">{(run.avg_grounded_hallucination_rate * 100).toFixed(0)}%</span>
-        <span className="text-goldLight w-12 text-right">{(run.relative_reduction * 100).toFixed(0)}%</span>
+        <span className="text-goldLight w-10 sm:w-12 text-right">{(run.relative_reduction * 100).toFixed(0)}%</span>
         <span className={`text-indigo transition-transform ${isExpanded ? "rotate-180" : ""}`}>⌄</span>
       </div>
     </button>
@@ -73,7 +73,7 @@ function EvalRunExpanded({ id }: { id: string }) {
   return (
     <div className="py-3 px-3 space-y-3">
       {detail.cases.map((c) => (
-        <div key={c.id} className="flex justify-between items-center py-2.5 border-b border-white/[0.05] last:border-0">
+        <div key={c.id} className="flex flex-wrap justify-between items-center gap-x-5 gap-y-1 py-2.5 border-b border-white/[0.05] last:border-0">
           <div className="text-[12.5px] text-[#c4c0e0] font-mono">
             {c.birth_date} · {c.birth_time}
           </div>
@@ -91,7 +91,7 @@ function GenerationRow({ log }: { log: GenerationLogSummary }) {
   const preview = log.narrative.length > 140 ? `${log.narrative.slice(0, 140)}…` : log.narrative;
   return (
     <div className="py-3.5 border-b border-white/[0.06] last:border-0">
-      <div className="flex justify-between items-center gap-4 mb-1.5">
+      <div className="flex flex-wrap justify-between items-center gap-x-4 gap-y-1 mb-1.5">
         <span className="text-[13px] text-[#d4d1ec] font-mono">
           {log.birth_date} · {log.birth_time}
         </span>

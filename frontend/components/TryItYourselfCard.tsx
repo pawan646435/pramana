@@ -101,7 +101,7 @@ function CardBody({
         <button
           onClick={onToggleExpand}
           aria-label={expanded ? "Collapse card" : "Expand card"}
-          className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-indigo hover:text-goldLight hover:bg-white/[0.06] focus:outline-none focus:ring-1 focus:ring-gold/40 transition-colors"
+          className="shrink-0 -m-2.5 w-11 h-11 rounded-full flex items-center justify-center text-indigo hover:text-goldLight hover:bg-white/[0.06] focus:outline-none focus:ring-1 focus:ring-gold/40 transition-colors"
         >
           <ExpandIcon expanded={expanded} />
         </button>
@@ -227,10 +227,13 @@ export default function TryItYourselfCard() {
                   onClick={() => setExpanded(false)}
                   aria-hidden="true"
                 />
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none">
+                {/* Edge-to-edge on small viewports (90vw is still cramped
+                    with wasted margin on a phone) - only becomes a
+                    floating centered card with real margin from sm: up. */}
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-6 pointer-events-none">
                   <motion.div
                     layoutId="try-it-card"
-                    className="glass p-9 w-[85vw] max-w-[900px] h-[75vh] overflow-y-auto pointer-events-auto"
+                    className="glass p-5 sm:p-9 fixed inset-4 sm:static sm:w-[85vw] sm:max-w-[900px] sm:h-[75vh] overflow-y-auto pointer-events-auto"
                     role="dialog"
                     aria-modal="true"
                     aria-label="Try it yourself - expanded"

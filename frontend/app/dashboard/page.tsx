@@ -40,12 +40,12 @@ export default function DashboardPage() {
   const reductionPct = evalReport ? evalReport.relative_reduction * 100 : null;
 
   return (
-    <main className="min-h-screen p-11 max-w-[1180px] mx-auto">
+    <main className="min-h-screen p-5 sm:p-11 max-w-[1180px] mx-auto">
       <CssStarfield />
-      <header className="flex justify-between items-center mb-10">
+      <header className="flex flex-wrap justify-between items-center gap-3 mb-8 sm:mb-10">
         <div>
-          <div className="font-serif text-3xl font-semibold gold-text">Pramana</div>
-          <div className="text-xs uppercase tracking-widest text-indigo mt-0.5">Grounded generation</div>
+          <div className="font-serif text-2xl sm:text-3xl font-semibold gold-text">Pramana</div>
+          <div className="text-[10px] sm:text-xs uppercase tracking-widest text-indigo mt-0.5">Grounded generation</div>
         </div>
         <nav className="glass flex gap-2 p-1.5 rounded-full">
           <Link href="/" className="px-4 py-2 rounded-full text-sm text-[#b8b4dd] hover:text-white transition-colors">
@@ -56,16 +56,16 @@ export default function DashboardPage() {
       </header>
 
       {/* Hero stat */}
-      <div className="glass p-9 mb-7 flex justify-between items-center gap-8 flex-wrap">
+      <div className="glass p-5 sm:p-9 mb-6 sm:mb-7 flex justify-between items-center gap-8 flex-wrap">
         <div>
           <div className="text-xs uppercase tracking-widest text-indigo mb-2">
             Measured hallucination rate {evalReport ? `· ${evalReport.provider}` : ""}
           </div>
           {evalReport ? (
             <>
-              <div className="text-4xl font-mono font-semibold">
+              <div className="text-3xl sm:text-4xl font-mono font-semibold">
                 <span className="text-rose">{ungroundedPct?.toFixed(1)}%</span>
-                <span className="text-indigoDeep mx-2.5 text-3xl">→</span>
+                <span className="text-indigoDeep mx-2.5 text-2xl sm:text-3xl">→</span>
                 <span className="text-mint">{groundedPct?.toFixed(1)}%</span>
               </div>
               <div className="text-xs text-indigo mt-2.5">
@@ -125,7 +125,7 @@ export default function DashboardPage() {
           <div className="text-xs text-indigo mb-5">Each row is one chart from the golden set, both conditions checked against the same real ground truth</div>
           <div className="space-y-4">
             {evalReport.cases.map((c, i) => (
-              <div key={i} className="flex justify-between items-center py-3 border-b border-white/[0.06] last:border-0">
+              <div key={i} className="flex flex-wrap justify-between items-center gap-x-6 gap-y-1.5 py-3 border-b border-white/[0.06] last:border-0">
                 <div className="text-[13px] text-[#d4d1ec] font-mono">
                   {c.birth_details.date} · {c.birth_details.time}
                 </div>
