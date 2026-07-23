@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { api, EvalReport, PanchangDay } from "@/lib/api";
 import CssStarfield from "@/components/CssStarfield";
 import HistorySection from "@/components/HistorySection";
+import ErrorNotice from "@/components/ErrorNotice";
 
 // TryItYourselfCard is the sole consumer of framer-motion in this app
 // (~111KB parsed, its own chunk) - the expand/collapse animation isn't
@@ -100,7 +101,7 @@ export default function DashboardPage() {
               {evalLoading ? "Running live eval — this makes real API calls, give it a moment…" : "Run a live eval to see real numbers"}
             </div>
           )}
-          {evalError && <div className="text-sm text-rose mt-2">{evalError}</div>}
+          {evalError && <ErrorNotice message={evalError} className="mt-2" />}
         </div>
         <div className="flex items-center gap-6">
           {reductionPct !== null && (

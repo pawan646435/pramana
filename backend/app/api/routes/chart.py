@@ -1,3 +1,4 @@
+import asyncio
 from datetime import date
 
 from fastapi import APIRouter, Response
@@ -27,7 +28,7 @@ async def compute_chart_endpoint(birth: BirthDetails, response: Response) -> Com
         response.headers["X-Cache"] = "HIT"
         return cached
 
-    chart = build_chart(birth)
+    chart = await asyncio.to_thread(build_chart, birth)
     response.headers["X-Cache"] = "MISS"
     await set_cached_chart(cache_key, chart)
     return chart

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { api, ClaimStatus, GenerationResult } from "@/lib/api";
+import ErrorNotice from "@/components/ErrorNotice";
 
 const STATUS_STYLES: Record<ClaimStatus, { badge: string; icon: string }> = {
   grounded: { badge: "badge-grounded", icon: "✓" },
@@ -125,7 +126,7 @@ function CardBody({
       <button className="btn-primary w-full mb-4" onClick={onGenerate} disabled={tryLoading}>
         {tryLoading ? "Generating…" : "Generate reading"}
       </button>
-      {tryError && <div className="text-sm text-rose mb-3">{tryError}</div>}
+      {tryError && <ErrorNotice message={tryError} className="mb-3" />}
 
       {tryLoading && !tryResult && (
         <div className="mt-4 pt-4 border-t border-white/10 space-y-3 animate-pulse" aria-label="Generating reading">

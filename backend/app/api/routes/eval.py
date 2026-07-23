@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends, Query
+import asyncio
+
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.persistence import persist_eval_report
 from app.db.session import get_db_session
+from app.generation.clients import LLMProviderRateLimitError
 from app.models.eval import EvalReport
 from eval.harness import run_eval
 
@@ -25,6 +28,16 @@ async def run_eval_endpoint(
     history, additively - a persistence failure is logged and never
     changes what's returned here.
     """
-    report = run_eval(provider=provider)
+    try:
+        report = await asyncio.to_thread(run_eval, provider)
+    except LLMProviderRateLimitError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                f"The AI provider ({exc.provider}) has hit its rate limit for "
+                "today. This usually resolves within a few minutes - please "
+                "try again shortly."
+            ),
+        ) from exc
     await persist_eval_report(session, report)
     return report
